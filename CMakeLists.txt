@@ -30,8 +30,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(${PROJECT_NAME}_demo_node src/demo.cpp)
-target_link_libraries(${PROJECT_NAME}_demo_node ${catkin_LIBRARIES})
+add_executable(${PROJECT_NAME}_node src/demo.cpp)
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES})
 
 add_executable(${PROJECT_NAME}_fake src/ml_fake.cpp)
 target_link_libraries(${PROJECT_NAME}_fake ${catkin_LIBRARIES})
