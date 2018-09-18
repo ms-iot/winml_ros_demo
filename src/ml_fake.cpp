@@ -5,7 +5,8 @@
 #include <nav_msgs/Odometry.h>
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
-#include <visualization_msgs/InteractiveMarker.h>
+#include <visualization_msgs/Marker.h>
+#include <visualization_msgs/MarkerArray.h>
 
 // current heading in degrees
 float yaw = 0.0f;
@@ -99,18 +100,18 @@ int main(int argc, char **argv)
 
         visualization_msgs::MarkerArray msgArray;
 
-		visualization_msgs::MarkerArray msg;
+		visualization_msgs::Marker msg;
 		float x = (scan.range_min * 2.0f);
 		float deg = yaw + 15.0f;
 		makeMarkerAt(msg, x, x * sin((float)angles::from_degrees(deg)), 0, 0);
 		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
-		msgArray.push_back(msg);
+		msgArray.markers.push_back(msg);
 
 		x = (scan.range_min * 2.5f);
 		deg = yaw + 35.0f;
 		makeMarkerAt(msg, x, x * sin((float)angles::from_degrees(deg)), 0, 1);
 		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
-		msgArray.push_back(msg);
+		msgArray.markers.push_back(msg);
 
 		detect_pub.publish(msgArray);
 

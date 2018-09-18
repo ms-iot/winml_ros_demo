@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(winml_tracker)
+project(winml_ros_demo)
 
 ## Compile as at least C++17 for cppwinrt
 add_compile_options(/Od)
@@ -21,14 +21,12 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(OpenCV REQUIRED)
 
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES winml_tracker
+  LIBRARIES winml_ros_demo
   CATKIN_DEPENDS cv_bridge geometry_msgs image_transport interactive_markers roscpp roslib std_msgs visualization_msgs
   DEPENDS OpenCV
 )
 
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
 )
 
