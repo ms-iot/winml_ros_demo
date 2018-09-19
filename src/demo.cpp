@@ -60,23 +60,26 @@ void markerCallback(const visualization_msgs::MarkerArray::ConstPtr& msg)
 	if (useLidarOnly || !haveLidar)
 		return;
 
-	float closestMarkDistance = FLT_MAX;
+	float closestMarkerDistance = FLT_MAX;
 
 	for (auto &marker : msg->markers)
 	{
-		// iterate over each marker. Compre with lidarIntensities.
-		// Each marker's x & y is relative to the camera frame. However,
-		// the camera frame goes from -kFOV/2 degress, and goes to kFOV/2 degrees.
-		// Just looking at the X, find the intensity for it. Compare with the closest mark.
+        float degreePerIndex = 360.0f / lidarRanges.size();
 
-		float lidarDegree = angles::to_degrees(angles::normalize_angle_positive(angles::from_degrees(kFOV * (marker.pose.position.x / kWidth) - 45.0f)));
+        // Zero is forward. Start from FOV loop around
+        int swingIndicies = (int)(kFOV / degreePerIndex);
+        int startingIndex = -swingIndicies / 2;
+        float degreesInImage = kFOV * (marker.pose.position.x / kWidth);
+        int indexForImage = (int)(degreesInImage / degreePerIndex);
+        size_t index = indexForImage < 0 ? lidarRanges.size() + i : i;
 
-		int index = (int)((lidarDegree / 360.0f) * lidarRanges.size());
-
-		float distance = lidarRanges[index];
-		if (distance < closestMarkDistance)
-		{
-			closestMarkDistance = lidarRanges[index];
+        float distanceForMarker = lidarRanges[index];
+        
+        if (distance > kMinDistance &&
+            distance < kMaxDistance &&
+            distance < closestMarkerDistance)
+        {
+            closestMarkerDistance = distanceForMarker;
 			targetYaw = (float)angles::from_degrees(lidarDegree);
 		}
 	}
