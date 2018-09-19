@@ -25,7 +25,7 @@
 
   <node pkg="winml_tracker" type="winml_tracker_node" name="winml_tracker_node" output="screen" />
   
-  <!-- node pkg="winml_ros_demo" type="winml_ros_demo_node" name="winml_ros_demo_node" output="screen" / -->
+  <node pkg="winml_ros_demo" type="winml_ros_demo_node" name="winml_ros_demo_node" output="screen" />
   
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="50.0" />
