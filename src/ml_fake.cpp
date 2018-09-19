@@ -12,6 +12,12 @@
 float yaw = 0.0f;
 float yawRad = 0.0f;
 
+const float kFOV = 70.0f;
+const float kWidth = 410.0f;
+const float kMarker1 = 15.0f;
+const float kMarker2 = 35.0f;
+const int kMarkerWidth = 10;
+
 void odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 {
     tf::Quaternion tfQ;
@@ -76,14 +82,17 @@ int main(int argc, char **argv)
         scan.ranges.resize(360);
         scan.intensities.resize(360);
 
+		float imageDegStart = 360.0f - kFOV / 2.0f;
+		float imageDegEnd = kFOV / 2.0f;
+
         for (int index = 0; index < 360; index++)
         {
-            if (index > yaw + 10 && index < yaw + 20)
+            if (index > yaw + imageDegStart + kMarker1 - kMarkerWidth / 2 && index < yaw + imageDegStart + kMarker1 + kMarkerWidth /2)
             {
                 scan.ranges[index] = scan.range_min * 2.0f;
 				scan.intensities[index] = scan.range_min * 2.0f;
 			}
-            else if (index > yaw + 30 && index < yaw + 40)
+			else if (index > yaw + imageDegStart + kMarker2 - kMarkerWidth / 2 && index < yaw + imageDegStart + kMarker2 + kMarkerWidth / 2)
 			{
 				scan.ranges[index] = scan.range_min * 2.5f;
 				scan.intensities[index] = scan.range_min * 2.5f;
@@ -101,15 +110,11 @@ int main(int argc, char **argv)
         visualization_msgs::MarkerArray msgArray;
 
 		visualization_msgs::Marker msg;
-		float x = (scan.range_min * 2.0f);
-		float deg = yaw + 15.0f;
-		makeMarkerAt(msg, x, x * sin((float)angles::from_degrees(deg)), 0, 0);
+		makeMarkerAt(msg, kMarker1, 0, 0, 0);
 		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
 		msgArray.markers.push_back(msg);
 
-		x = (scan.range_min * 2.5f);
-		deg = yaw + 35.0f;
-		makeMarkerAt(msg, x, x * sin((float)angles::from_degrees(deg)), 0, 1);
+		makeMarkerAt(msg, kMarker2, 0, 0, 1);
 		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
 		msgArray.markers.push_back(msg);
 

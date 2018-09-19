@@ -16,7 +16,7 @@
   </node>
 
   <!-- node pkg="winml_ros_demo" type="winml_ros_demo_node" name="winml_ros_demo_node" output="screen" / -->
-  <node pkg="winml_ros_demo" type="winml_ros_demo_fake_node" name="winml_ros_demo_fake_node" output="screen" />
+  <node pkg="winml_ros_demo" type="winml_ros_demo_fake" name="winml_ros_demo_fake" output="screen" />
 
   <node pkg="turtlebot3_fake" type="turtlebot3_fake_node" name="turtlebot3_fake_node" output="screen" />
 
