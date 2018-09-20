@@ -25,11 +25,18 @@
 
   <node pkg="winml_tracker" type="winml_tracker_node" name="winml_tracker_node" output="screen" />
   
-  <node pkg="winml_ros_demo" type="winml_ros_demo_node" name="winml_ros_demo_node" output="screen" />
+  <node pkg="winml_ros_demo" type="winml_ros_demo_node" name="winml_ros_demo_node" output="screen">
+    <param name="field_of_view" type="double" value="70.0" />
+    <param name="image_width" type="double" value="416.0" />
+    <param name="min_distance" type="double" value="1.0" />
+    <param name="max_distance" type="double" value="3.0" />
+    <param name="tolerance" type="double" value="0.05" />
+    <param name="scale" type="double" value="0.3" />
+  </node>
   
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="50.0" />
   </node>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d package://turtlebot3_fake/rviz/turtlebot3_fake.rviz"/>  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d package://winml_ros_demo/rviz/turtlebot3.rviz"/>  
 </launch>

@@ -17,11 +17,15 @@ float targetYaw = 0.0f;
 
 bool haveLidar = false;
 std::vector<float> lidarRanges;
-const float kFOV = 70.0f;  // move to param
-const float kCameraPixelWidth = 416.0f;
-const float kDegreePerCameraIndex = kFOV / kCameraPixelWidth;
-const float kMinDistance = 1.0f;
-const float kMaxDistance = 3.0f;
+
+// These are now parameters
+float kFOV = 70.0f;
+float kCameraPixelWidth = 416.0f;
+float kDegreePerCameraIndex = kFOV / kCameraPixelWidth;
+float kMinDistance = 1.0f;
+float kMaxDistance = 3.0f;
+float kTolerance = 0.05f;
+float kAngleScale = 0.3f;
 
 ros::Time g_lastSeen;
 bool useLidarOnly = false;
@@ -93,9 +97,6 @@ void markerCallback(const visualization_msgs::MarkerArray::ConstPtr& msg)
     ROS_INFO("Turning Towards %f", targetYaw);
 }
 
-const float kTolerance = 0.05f;
-const float kAngleScale = 0.3f;
-
 int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "ml_point_to_closest");
@@ -104,6 +105,14 @@ int main(int argc, char** argv)
 	ros::Subscriber lidarSub = n.subscribe("scan", 500, scanCallback);
 	ros::Subscriber markerSub = n.subscribe("tracked_objects", 500, markerCallback);
     ros::Publisher velocityPub = n.advertise<geometry_msgs::Twist>("cmd_vel", 10);
+
+    n.getParam("field_of_view", kFOV);
+    n.getParam("image_width", kCameraPixelWidth);
+    kDegreePerCameraIndex = kFOV / kCameraPixelWidth;
+    n.getParam("min_distance", kMinDistance);
+    n.getParam("max_distance", kMaxDistance);
+    n.getParam("tolerance", kTolerance);
+    n.getParam("scale", kAngleScale);
 
     g_lastSeen = ros::Time::now();
 
