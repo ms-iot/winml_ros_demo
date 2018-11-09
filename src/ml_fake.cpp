@@ -1,4 +1,3 @@
-#define _USE_MATH_DEFINES
 #include <ros/ros.h>
 #include <angles/angles.h>
 #include <sensor_msgs/LaserScan.h>
@@ -111,11 +110,11 @@ int main(int argc, char **argv)
 
 		visualization_msgs::Marker msg;
 		makeMarkerAt(msg, kMarker1, 0, 0, 0);
-		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
+		msg.action = added ? visualization_msgs::Marker::MODIFY : visualization_msgs::Marker::ADD;
 		msgArray.markers.push_back(msg);
 
 		makeMarkerAt(msg, kMarker2, 0, 0, 1);
-		msg.action = added ? visualization_msgs::Marker::MK_MODIFY : visualization_msgs::Marker::MK_ADD;
+		msg.action = added ? visualization_msgs::Marker::MODIFY : visualization_msgs::Marker::ADD;
 		msgArray.markers.push_back(msg);
 
 		detect_pub.publish(msgArray);
